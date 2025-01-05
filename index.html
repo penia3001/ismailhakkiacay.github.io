@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realmen - Penia Eğitim Platformu</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  /* Genel Stil */
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1a73e8, #4285f4);
+    animation: gradient-animation 10s infinite alternate;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes gradient-animation {
+    0% {
+      background: linear-gradient(135deg, #1a73e8, #4285f4);
+    }
+    50% {
+      background: linear-gradient(135deg, #4285f4, #34a853);
+    }
+    100% {
+      background: linear-gradient(135deg, #34a853, #1a73e8);
+    }
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffdf00, #ff6f00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0.5rem 0;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .contact-info p a {
+    color: #ffdf00;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .cta-btn {
+    background: linear-gradient(135deg, #ff6f00, #ff8c00);
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    box-shadow: 0 8px 15px rgba(255, 111, 0, 0.5);
+  }
+
+  .cta-btn:hover {
+    background: linear-gradient(135deg, #ff8c00, #ff6f00);
+    transform: scale(1.05);
+    box-shadow: 0 15px 25px rgba(255, 111, 0, 0.7);
+  }
+
+  footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #F5F4EB;
+  }
+
+  /* Modal Stil */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal {
+    background: #fff;
+    color: #000;
+    padding: 15px;
+    border-radius: 5px;
+    max-width: 1080px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 30px #1a73e8 inset;
+    position: relative;
+    max-height: 75vh;
+    overflow-y: auto;
+    border: 1px solid #4285f4;
+  }
+
+  .modal h2 {
+    margin: 0 0 20px;
+    color: #1a73e8;
+    font-size: 2rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .modal ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .modal ul li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .modal .close-btn {
+    background: none;
+    border: none;
+    color: #d9534f;
+    font-size: 2rem;
+    position: absolute;
+    top: 15px; /* Mesafeyi azaltarak sağ üst köşeye hizaladık */
+    right: 15px;
+    cursor: pointer;
+    z-index: 1001; /* Buton üzerine tıklanabilir olmalı */
+  }
+
+  .complete-btn {
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+    background: linear-gradient(135deg, #1a73e8, #4285f4);
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .complete-btn:hover {
+    background: linear-gradient(135deg, #4285f4, #1a73e8);
+    transform: scale(1.05);
+  }
+
+  /* Yeni Stil - Ampül ikonu, tam ekran ikonu */
+  .icon, .fullscreen-icon {
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 1s ease;
+  }
+
+  .icon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+  }
+
+  .fullscreen-icon {
+    position: absolute;
+    top: 15px; /* Üstten daha fazla mesafe verildi */
+    right: 180px; /* Sağdan mesafe verildi */
+  }
+
+  .icon:hover, .fullscreen-icon:hover {
+    transform: rotate(360deg);
+    color: #ff6f00;
+  }
+
+  /* Dark Mode */
+  .dark-mode {
+    background-color: #100E09;
+    color: #f8f8ff;
+  }
+
+  .dark-mode .modal {
+    background-color: #100E09;
+    color: #f8f8ff;
+  }
+
+  /* Tam ekran */
+  .fullscreen {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    top: 0;
+    left: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  /* Gökyüzü hissi veren arka plan */
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 2px, transparent 2px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+  <h1>Realmen - Penia Eğitim Platformu</h1>
+  <p>Bugün kendin için yapacağın tek bir şey, yarın yaşayacağın birçok şeyi değiştirebilir.</p>
+  <p>Eğitim setinin %100’ü dijital ortamda okunmaktadır.</p>
+  <p>Eğitimin detayları ve sorularınız için aşağıdaki iletişim adresleri üzerinden ulaşabilirsiniz!</p>
+  <div class="contact-info">
+    <p><strong>WhatsApp:</strong> +90 537 267 5832</p>
+  </div>
+  <button class="cta-btn" onclick="openModal()">Eğitime Başla</button>
+  <footer>© 2024 Realmen Eğitim Platformu. Tüm hakları saklıdır.</footer>
+
+  <!-- Modal Genel -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <button class="close-btn" onclick="closeModal()">×</button>
+      <h2>Müfredat</h2>
+      <ul>
+        <li onclick="openContent('başlangıç')">BAŞLANGIÇ</li>
+        <li onclick="openContent('giriş-1')">GİRİŞ-1</li>
+        <li onclick="openContent('öz güven')">ÖZ GÜVEN</li>
+      </ul>
+      <a href="#" class="complete-btn" onclick="closeModal()">Tamamla</a>
+    </div>
+  </div>
+
+  <!-- Modal İçerik -->
+  <div class="modal-overlay" id="content-modal">
+    <div class="modal">
+      <span class="icon" onclick="toggleDarkMode()">💡</span>
+      <span class="fullscreen-icon" onclick="toggleFullscreen()">🔲</span>
+      <button class="close-btn" onclick="closeContentModal()">×</button>
+      <h2 id="content-title"></h2>
+      <p id="content-text">İçerik burada görüntülenecek.</p>
+      <a href="#" class="complete-btn" onclick="closeContentModal()">Tamamla</a>
+    </div>
+  </div>
+
+  <script>
+    // Modal genel açılış
+    function openModal() {
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    // İçerik penceresi açma
+    function openContent(title) {
+      const contentModal = document.getElementById('content-modal');
+      const contentTitle = document.getElementById('content-title');
+      const contentText = document.getElementById('content-text');
+
+      contentModal.style.display = 'flex';
+
+      switch (title) {
+        case 'başlangıç':
+          contentTitle.innerHTML = 'BAŞLANGIÇ';
+          contentText.innerHTML = 'Ölüm Gününe Hoş Geldin<br><br>Burası senin mezarın. Eski hayatının külleri, yıkılmış hayallerin ve yeniden varoluşun tam başlangıç noktası. Sahi, kaç gün geçti şu anı bekleyerek? Kaç kez zamanın elinden kayıp gitmesine tanık oldun? Yaşanmışlıkların içinde kendini kaç defa aradın? Bu mezar, geçmişin seni geride bırakıp artık ileriye taşıyacak anahtarı. Artık buradasın ve burada öğrendiklerinle hayata yeni anlamlar katacak, bambaşka bir hikayeyi yazmaya başlayacaksın.<br><br>Ben, tanıdığın o sıradan insanlardan biri değilim. Model alacağın ya da yollarını izlemek isteyeceğin bir figür de değilim. Hayatta her şeyin en iyisini isteyen ama bunun için kendinden ödün vermeyen biriyim. Ne zaman düşsem, o düşüşten daha da güçlenerek kalktım ve kimseler bunu farkedemedi. Siyah gecelerde yalnız bir yıldızın ışığını ararken buldum kendimi, o ışıkla aydınlanan yolların her birinde bir iz bıraktım. Ama hiçbir iz, geçmişe dönmek için değil; geleceğe yön vermek içindi.<br><br>Geçmişin seni tutan zincirleri arasında sıkışıp kalabilirsin, ama özgürlük yalnızca o zincirleri kıranlara aittir. Hayat bir meydan okuma ve ben bu meydanın en cesur oyuncularından biriyim. Her kaybımı bir ders, her zaferimi bir basamak yaptım. Çünkü bilirim ki sadece ileriye bakarak yürüyenler gerçekten yol alır.<br><br>Hayatımda zirvelere ulaşmış bir figür olmadım, ama her adımda içimdeki gücü ve cesareti yeniden keşfettim. Başarıyı ölçmenin birden fazla yolu olduğuna inanıyorum. Kimileri için bu zirveye ulaşmak, benim içinse yolculuğun kendisi oldu. Kaç kez tökezlediğimi değil, her defasında nasıl yeniden kalktığımı sayarım.<br><br>Başarıyı rakamlarda veya unvanlarda arayanlar için sıradan görünebilirim, ama ben ruhumun derinliklerinde kazandım. Hayatta her kayıp, bana hayatın gerçek değerini ve anlamını hatırlattı. Belki önümde bir sahne, arkamda alkışlar yok; ama içimde kocaman bir dünya taşıyorum. Çünkü başarı, başkalarının gözünden çok, kendine verdiğin değerde saklıdır.<br><br>Okudukların sana ne hissettiriyor? Belki içinde uzun süredir susturduğun bir sesi, belki henüz keşfetmediğin bir yönü uyandırıyor. Hayatını sıradan bir hikaye gibi yaşamaktan yorulmadın mı? Kendine, içindeki cevherleri çıkaracak cesareti vermenin zamanı gelmedi mi?<br><br>Ben, sıradan bir rehber değilim. Yolunu bulman için elini uzatmam. Sadece ışığı gösteririm; o yolda yürümek senin cesaretine bağlıdır. Geçmişin yaraları seni durduramaz, eğer gerçekten istiyorsan. Hayat, sadece risk alanlara ve yeni başlangıçları kabul edenlere cömert davranır.<br><br>Unutma, bu yolculuk kolay olmayacak. Yüzleşmen gereken karanlıklar, aşman gereken engeller olacak. Ama her zafer, seni bir adım daha ileriye taşıyacak. Her bir başarının tadı, kaybettiklerinle daha anlamlı hale gelecek.<br><br>Maceralarını, hayatın zorluklarını da zaferlerini de cesaretle yaşayan birini merak ediyor musun? Sahi, ben kimim? Bu satırları okudukça beni daha iyi tanıyacak, ardımda bıraktığım izlerle gerçek hikayemi daha derinden anlayacaksın.';
+          break;
+        case 'giriş-1':
+          contentTitle.innerHTML = 'GİRİŞ-1';
+          contentText.innerHTML = '<br>Karanlık sokağın sessizliğini, attığım adımların yankılarıyla bozuyordum. Sanki birisi beni takip ediyordu. Adımlarımı dikkatli ve sessizce atmaya özen gösteriyordum. Önüme bakarak yürümekten çok, arkamı kolluyordum. Sessiz geceye rağmen tenimi okşayan rüzgar, adeta tüylerimi ürpertiyor, havanın soğukluğu, sıcak tenimin her bölgesinde hızla dolaşıyordu. Birden durdum ve arkamı döndüm. Beni adım adım takip eden bilinmez, karşımda, intikam arzusuyla bana doğru bakıyordu. Yavaşça kulağıma fısıldadığı sözleri hafızama kazıdım. İşte ben o gece tüm benliğimle bana sonsuz vaatlerde bulunan kendi bilinmezimle tanıştım ve gelecek hayatım için onunla anlaştım. İşte ben o günden sonra asla eski ben olmadım. Arzuladım, istedim ve aldım. Evet, aldım fakat hevesim geçene kadar, isteğim tükenene kadar, yorulmayan bedenim bana dur diyene kadar asla durmadım. Sana bu yola ulaşana kadar yaşadıklarımın serüvenini anlatmak istiyorum. Her insan kaybettikçe öğrenir. Kaybettiğini fark ettiğinde, içindeki boşluğu ancak intikamla doldurabilirsin. Ben de öyle yaptım. Geçmişte yaşadığım tüm kötü tecrübelerle kırdım zincirlerimi, sığmadım hiçbir yere ve hayatın en önemli aşamalarında güçlü bir adam olarak yerimi aldım. Çocukluğumdan itibaren, kaybetmenin ne demek olduğunu öğrenmiş biri olarak, artık kayıplarımın karşısında ne yapmam gerektiğini biliyordum. Tecrübe, kaybedilenlerin acısının toplamıdır. Bu yola ilk büyük adımı, geçmişte kaybettiklerimi, hislerimi ve haysiyetimi anlamaya başladığımda attım. <br><br>Kaybın ve intikamın arasında bir fark vardır; kaybederken sessizce kanarsınız, ama intikam aldığınızda her şeyin karşılığını alırsınız. Günah yalnızca kötü bir davranış değilmiş. Kaybedilenlerin ve alınan intikamın verdiği tat, bana hatırlatır ki hayat, zaferlerden değil, kayıplardan ders çıkarmakla değer kazanır. Bu yola çıkarken her şeyimi kaybettim. Ve kazandıklarım, kaybettiklerimin intikamıydı. Üniversite döneminde toy bir adamdım. Fakat kayıplar, en sert öğretmenimdi. Bir süre sonra, kaybedilen her şeyin bir şekilde geri alınabileceğini fark ettim. Çapkınlık değil, kaybettiklerimle yüzleşmek bir mücadele haline geldi. Rotasını bilen bir gemi kaptanı, dümeni doğru yöne çevirmediği sürece rotayı bilmesi neye yarar ki? Bu konuda fırsatları değerlendirmek gerekir. Kişisel gelişim, kaybettiklerimizin yerine koyacağımız her yeni adımda gizlidir. Olgunlaşmamış bir meyve gibi hissettiğim zamanlar oldu, ama her kaybın ardından yeni bir başlangıç yapmak gerektiğini öğrendim. Bu hayat serüvenini seninle paylaşmak istiyorum. Satırları okurken, sen de fark edeceksin ki, her kayıp, sonrasında alacağın intikam için hazırlıktır. <br><br>Lise zamanında pek flörtöz biri değildim. Sosyal bir yaşam tarzım vardı ama flörtöz değildim. Nil Kolejinde ses yarışması kulübündeydim. Hatta o sene il birincisi seçilmiştim, tüm gözler üstümdeydi. Genelde kızlarla iletişimim oldukça iyiydi. O zamanlar tabii aşkın ve sevginin varlığına inanıyordum. Tabii ben de kalbine yenilen her varlık gibi, aşk denilen yalan hikâyenin bir figürü hâline gelmiştim. <br><br> Okulun kantininde gördüğüm o kıza âdeta takılıp kaldım. Çamura saplanan araba gibi… Çıkmak için çırpınırsın da her çıkmak istediğinde patinaj çekersin ya, işte öyle bir şey. Birden çırpınmayı kestim ve çamura tamamen batmayı istedim. Belki benim kaderimde de çamura saplanan bir arabanın hikâyesi saklıydı. Bir araba mutlaka, başka bir arabanın desteğiyle de olsa çamurdan çıkmak isterse bir yolunu bulur, çıkar. Bu mesele öyle değil işte. Kim çamura batıp kalan bir araba olmak ister ki, isteyenin hikâyesini dinlemek için meraklanmaz? <br><br> Neyse, bir akşam muhabbetle başlayan bu serüvene cesaretli bir adam profiliyle giriştim; kendimden emin, bir o kadar da cesaret timsali bir hâlde, nereye gideceğini bilmediğim, üç yıllık bir hikâyeye başladım. Bazen ağladık, bazen güldük. O dönemlerde sevgi, ciğerlerimde dolaşan ve bağımlısı olduğum bir tür maddeye benzerdi. Her neyse, zaman geldi çattı. Okulun ardından askerlik gibi zorlu bir görev vardı. Asla tereddüt etmedim. Onun sevgisinden aldığım cesaretle, özlem ve hasretin önemsiz olduğunu düşünüyordum. Bana göre o beklerdi. Ama sonradan anladım ki sadece bana göreymiş. <br><br> Bir önceki satırda, hayal kırıklıklarıyla tecrübe edindiğim cümlede de belirttiğim gibi hiç de öyle olmadı. Askere gittikten kısa bir süre sonra, aldatıldığımı öğrendim. İlk anda kabullenemedim, daha sonra istemeye isteyemeye olsa da gerçekleri reddedemedim. Günlerce ruh gibi gezdim. Her şeyden kendimi soyutlamış bir hâlde dolanıyordum. Kafamın içi âdeta cam kırıklarıyla doluydu. Ne yana dönersem döneyim bir yerden batıyor, canımı yakıyordu. Sahi bende eksik olan ne vardı? Ona nasıl yetmemiştim ki benden başkasını tercih etmişti? Kulağımdaki çınlama, gözlerimdeki karartı… Dünya resmen kocaman bir buz dağı gibi üzerime düşmüştü. Kendimi duygularıyla hareket edemeyen bir felç hastası, âciz bir adam gibi görmüştüm. <br><br> O an aklımda, hayatımın geri kalanının asla değişmez ilk üç kanun maddesini belirlemiştim: kimseye güvenme, aşk denilen yalana inanma ve asla birine bağlanma. Hayatımın geri kalanı, değişmeyen bu üç kanun maddesiyle, o günden itibaren sonsuza kadar sürecek bir sözleşme ile ipotek altına alınmıştı. Bir an öldüğüm günü ve mezardaki bedenimi düşündüm. Kendi kendime dedim ki, ben yaşadığım bu yıkımın enkazını mezarımda bile unutmam. İnsanların hayatlarında unutamadıkları bazı acı anlar vardır; hatırlamak istemezsin ama zihninden de atamazsın. <br><br> Bir gün, sevdiğim bu kıza sürpriz yapmak için terhis bölüğümden izin aldım. Onunla en sık gittiğimiz kafeye gidip her zaman içtiği kahvesini içeceğinden adım gibi emindim. Yıllarımız geçiyordu sonuçta, onu yavaş yavaş tanımaya başlıyordum. Hızlı, koşar adımlarla o kafeye gittim. Elimde de giderken yol kenarındaki küçük bir Roman kızından aldığım papatyalar vardı. Onu yakından görmeden önce, bensiz yaptıklarını görmek için uzaktan izleyerek biraz hasret gidermek istedim. Hani aşk adamıyım ya am*na koyayım. <br><br> Orada onu izlerken haz alacağımı düşünürken azap dolu dakikalar başladı. Sevdiğim kız oydu ama o değil gibiydi. Duruşu, görünüşü aynıydı ama bakışları bana baktığı gibi, benim bıraktığım gibi değildi. İzlemeye devam ettiğimde, yanına yaklaşan bir adamın ona temas etmesi ve boynuna sarılmasıyla bende kayış koptu. Uçuruma doğru giden, freni boşalmış bir kamyon gibiydim. Hemen, hızlı adımlarla, aldığım bir buket papatyayı hayal kırıklığımın etkisiyle olay yerinde bırakarak, iz bırakmadan oradan uzaklaştım. Orası artık benim için bir cinayet mahallinden farksızdı. Fakat burada kaçıp giden katil değil, cesedin ta kendisiydi: bendim. <br><br> Taksiyle heyecanla geldiğim mekândan yürüyerek, yine hızlı adımlarla uzaklaşmaya çalıştım. Okyanusta yönünü yitiren bir balina gibiydim. Her an birilerinin tuzağına düşüp yakalanmaktan korkan bir balık gibiydim. Vücudumdaki hâlsizlik ben adım attıkça artmaya başladı. Gözlerimdeki nemin artışına gökyüzündeki yağmur da eşlik ediyordu. Hiç unutmadım, bir an o kadar âciz olduğumu düşündüm ki sanki bulutlar bile bana eşlik ediyordu. Yorgundum, hâlsizdim. Kendimi önce eve attım. Islanan çamaşırlarımı yenisiyle değiştirirken ondan gelen mesaja cevap vermek yerine telefonumu kaldırıp duvara fırlattım. Bir süre kendime vakit ayırmaya ihtiyacım vardı. Şehrin kalabalığından bunalmışçasına hızlı verdiğim bir karar oldu. Aldığım üç beş eşyayla, herkesin bildiği fakat kimsenin gitmeyi bile aklından geçirmediği bir yere demir attım. Resmen “Titanic” gibiydim. Buz dağına çarptım ve yavaş yavaş su almaya başladım. Su aldıkça da battım. Günlerce yemek yemedim. Herkesle iletişimimi kestim. <br><br> Geceleri balkonda tek başıma otururken, enkaz altından çıkan bir adamın onu hayata bağlanan son umuduyla, tam 40 gün sonra kendime gelmemi söyledim. Artık değişmem lazımdı, acılarımın kırkı çıkmıştı. Artık Realmen - Penia olarak, yeniden toprağa düşen bir tohum, yeşeren bir fidan gibi olmalıydım. Dikenli, can acıtan ama karşı koyulamayan, herkesin istediği türden bir çiçek olmalıydım. Bana ulaşmak isteyenler dikenime katlanmalıydılar. Köklerimi yeniden toprağa saldım. <br><br> Hayal kırıklığıyla geçen bir dönemin ardından, o günden itibaren hep araştırmaya başladım. Kendimi âdeta çok önemli bir sınava hazırlıyormuş gibi hazırlayıp, tecrübeli herkesin sözlerinden birer alıntı yaptım. Kendi kafamda kocaman bir laboratuvar kurdum. İnceleyen bendim, deneylerim ise insanlar… Bakalım sonuç ne çıkacak? En ince ayrıntı bile benim için çok önemliydi. İlk önce ı tanımaya yönelik sorularla başladım. Beyaz, çizgisiz dosya kâğıdına mavi pilot kalemle soruları teker teker sıraladım. Gece gündüz demeden, bazen bana eşlik eden sigaramla bazen yudumladığım madde sayesinde uyumadım, ayakta kaldım. Çabaladım. Hayat boyu mağlubiyeti sindiremeyen bir adamdım. Yine öyle oldu. Önümde bir savaş vardı. Evet, belki yaralıydım fakat mücadele ederek o savaşı kazandım. Yediğim darbeler beni savaş meydanlarının efsane kahramanına dönüştürdü. Hem de farkla! <br><br> Her insanı bu laboratuvarda inceledim. Aldıkları nefesten tut, panik anlarında zihinlerinden geçen düşüncelere varana kadar her şeyi öğrendim. Şimdi ise bu laboratuvarı nasıl sıfırdan inşa ettiğimi anlatacağım. Bir günde ya da bir ayda başarılı ve güçlü bir adama dönüşmedim. Elde ettiğim başarının adımlarını sana sunuyorum, bundan sonra her detayı birlikte inceleyeceğiz.';
+          break;
+        case 'öz güven':
+          contentTitle.innerHTML = 'ÖZ GÜVEN';
+          contentText.innerHTML = 'YAKINDA.';
+          break;
+        default:
+          contentTitle.innerHTML = 'Başlık Bulunamadı';
+          contentText.innerHTML = 'Geçerli bir başlık seçmediniz.';
+      }
+    }
+
+    // İçerik penceresini kapatma
+    function closeContentModal() {
+      document.getElementById('content-modal').style.display = 'none';
+    }
+
+    // Dark Mode fonksiyonu
+    let isDarkMode = false;
+    function toggleDarkMode() {
+      const contentModal = document.getElementById('content-modal');
+      isDarkMode = !isDarkMode;
+      if (isDarkMode) {
+        contentModal.classList.add('dark-mode');
+      } else {
+        contentModal.classList.remove('dark-mode');
+      }
+    }
+
+    // Tam Ekran fonksiyonu
+    function toggleFullscreen() {
+      const modal = document.querySelector('#content-modal .modal');
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else if (modal.requestFullscreen) {
+        modal.requestFullscreen();
+      } else if (modal.mozRequestFullScreen) { // Firefox
+        modal.mozRequestFullScreen();
+      } else if (modal.webkitRequestFullscreen) { // Chrome, Safari ve Opera
+        modal.webkitRequestFullscreen();
+      } else if (modal.msRequestFullscreen) { // IE/Edge
+        modal.msRequestFullscreen();
+      }
+
+      // Tam ekran yapıldıktan sonra pencereyi yeniden düzenle
+      modal.classList.toggle('fullscreen');
+    }
+  </script>
+</body>
+</html>
